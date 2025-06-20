@@ -60,8 +60,6 @@ int main() {
         }
       }
 
-    tb_printf(1, 2, TB_WHITE, TB_BLACK, "pos = %f, %f", cm.pos.x, cm.pos.y);
-    tb_printf(1, 3, TB_WHITE, TB_BLACK, "dir = %f, %f", cm.dir.x, cm.dir.y);
     tb_present();
     } 
 
