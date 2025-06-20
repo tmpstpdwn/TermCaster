@@ -51,12 +51,6 @@ typedef struct {
   Vector2D plane;
 } Camera;
 
-// Projection plane / screen.
-typedef struct {
-  int w, h;
-  Vector2D plane;
-} Screen;
-
 /* [[ DCL ]] */
 
 // Helpers.
