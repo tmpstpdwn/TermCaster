@@ -6,7 +6,7 @@
 
 /* [[ DEFINES ]] */
 
-// Map.
+// Map diamensions.
 #define MAPROWS 10
 #define MAPCELLS 10
 
@@ -50,15 +50,15 @@ typedef struct {
 
 // Camera.
 typedef struct {
-  Vector2D pos;
-  Vector2D dir;
-  Vector2D plane;
+  Vector2D pos; // Position vector.
+  Vector2D dir; // Direction vector.
+  Vector2D plane; // camera plane vector.
 } Camera;
 
 /* [[ DCL ]] */
 
 // Helpers.
-double get_time_in_seconds(); // get current time in seconds.
+double get_time_in_seconds(); // Get current time in seconds.
 
 // Camera.
 void move(Camera *cm, int dir, double dt); // Move camera and deal collisions.

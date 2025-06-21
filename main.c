@@ -70,7 +70,7 @@ int main() {
           gs = OFF;
           break;
         }
-      }
+    }
 
     // Flush terminal buffer.
     tb_present();
