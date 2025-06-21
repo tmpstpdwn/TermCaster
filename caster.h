@@ -10,6 +10,16 @@
 #define MAPROWS 10
 #define MAPCELLS 10
 
+// FOV = 2 * arctan(PLANE_HWIDTH).
+// 0.66 gives 66 degrees in FOV.
+#define PLANE_HWIDTH 0.66
+
+// Camera normal, angular speed.
+#define SPEED 1
+#define ANGULAR_SPEED 5
+
+/* [[ MAP ]] */
+
 const int map[MAPROWS][MAPCELLS] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
@@ -23,21 +33,15 @@ const int map[MAPROWS][MAPCELLS] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
-// FOV = 2 * arctan(PLANE_HWIDTH).
-// 0.66 gives 66 degrees in FOV.
-#define PLANE_HWIDTH 0.66
-
-// Camera normal, angular speed.
-#define SPEED 1
-#define ANGULAR_SPEED 5
-
-/* [[ STRUCTS ]] */
+/* [[ ENUMS ]] */
 
 // Gamestate.
 typedef enum {
     OFF,
     ON,
 } GameState;
+
+/* [[ STRUCTS ]] */
 
 // 2D Vector.
 typedef struct {
