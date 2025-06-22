@@ -19,7 +19,7 @@
 #define ANGULAR_SPEED 1.5
 
 // Raycaster
-#define MAX_DRAW_DIST 10
+#define MAX_DRAW_DIST 20
 
 /* [[ MAP ]] */
 
@@ -120,6 +120,7 @@ void ray_cast(Camera *cm, int width, int height) {
     delta_dist.y = fabs(1/ray.y);
 
     double perp_wall_dist;
+    double ray_dist = 0;
     int hit = 0;
     int side;
 
@@ -138,12 +139,14 @@ void ray_cast(Camera *cm, int width, int height) {
       side_dist.y = (xy.y + 1 - cm->pos.y) * delta_dist.y;
     }
 
-    while (!hit) {
+    while (!hit && ray_dist < MAX_DRAW_DIST) {
       if (side_dist.x < side_dist.y) {
+        ray_dist = side_dist.x;
         side_dist.x += delta_dist.x;
         xy.x += step.x;
         side = 0;
       } else {
+        ray_dist = side_dist.y;
         side_dist.y += delta_dist.y;
         xy.y += step.y;
         side = 1;
