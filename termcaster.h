@@ -15,8 +15,11 @@
 #define PLANE_HWIDTH 0.66
 
 // Camera normal, angular speed.
-#define SPEED 10
-#define ANGULAR_SPEED 10
+#define SPEED 2
+#define ANGULAR_SPEED 1.5
+
+// Raycaster
+#define MAX_DRAW_DIST 10
 
 /* [[ MAP ]] */
 
@@ -69,6 +72,10 @@ double get_time_in_seconds(); // Get current time in seconds.
 void move(Camera *cm, int dir, double dt); // Move camera and deal collisions.
 void rotate(Camera *cm, int dir, double dt); // Rotate camera by theta.
 
+// Raycaster.
+void ray_cast(Camera *cm, int width, int height); // Cast rays in players fov and draw vertical lines for each wallhit based on-
+// distance from player to wallhit.
+
 /* [[ DEF ]] */
 
 double get_time_in_seconds() {
@@ -96,6 +103,87 @@ void rotate(Camera *cm, int dir, double dt) {
   cm->dir.y = x * sin(theta) + y * cos(theta); 
   cm->plane.x = -(cm->dir.y * PLANE_HWIDTH);
   cm->plane.y = (cm->dir.x * PLANE_HWIDTH);
+}
+
+void ray_cast(Camera *cm, int width, int height) {
+  Vector2D ray, xy, side_dist, delta_dist, step;
+  for (int x = 0; x < width; x++) {
+
+    double cameraX = 2 * x / (double)width - 1;
+    ray.x = cm->dir.x + cm->plane.x * cameraX;
+    ray.y = cm->dir.y + cm->plane.y * cameraX;
+
+    xy.x = (int)cm->pos.x;
+    xy.y = (int)cm->pos.y;
+
+    delta_dist.x = fabs(1/ray.x);
+    delta_dist.y = fabs(1/ray.y);
+
+    double perp_wall_dist;
+    int hit = 0;
+    int side;
+
+    if (ray.x < 0) {
+      step.x = -1;
+      side_dist.x = (cm->pos.x - xy.x) * delta_dist.x;
+    } else {
+      step.x = 1;
+      side_dist.x = (xy.x + 1 - cm->pos.x) * delta_dist.x;
+    }
+    if (ray.y < 0) {
+      step.y = -1;
+      side_dist.y = (cm->pos.y - xy.y) * delta_dist.y;
+    } else {
+      step.y = 1;
+      side_dist.y = (xy.y + 1 - cm->pos.y) * delta_dist.y;
+    }
+
+    while (!hit) {
+      if (side_dist.x < side_dist.y) {
+        side_dist.x += delta_dist.x;
+        xy.x += step.x;
+        side = 0;
+      } else {
+        side_dist.y += delta_dist.y;
+        xy.y += step.y;
+        side = 1;
+      }
+      if (map[(int)(xy.y)][(int)(xy.x)] > 0) hit = 1;
+    }
+
+    if (!hit) {
+      continue;
+    }
+
+    if (side == 0) perp_wall_dist = (side_dist.x - delta_dist.x);
+    else           perp_wall_dist = (side_dist.y - delta_dist.y);
+    int line_height = (int)(height / perp_wall_dist);
+
+    int draw_start = height / 2 - line_height / 2;
+    draw_start = (draw_start < 0)? 0: draw_start;
+
+    int draw_end = height / 2 + line_height / 2; 
+    draw_end = (draw_end >= height)? height - 1: draw_end;
+
+    for (int y = draw_start; y <= draw_end; y++) {
+      int color;
+      switch (map[(int)(xy.y)][(int)(xy.x)]) {
+        case 1:
+          color = TB_GREEN;
+          break;
+        case 2:
+          color = TB_BLUE;
+          break;
+        case 3:
+          color = TB_YELLOW;
+          break;
+        case 4:
+          color = TB_CYAN;
+          break;
+      }
+      tb_set_cell(x, y, ' ', TB_BLACK, color);
+    }
+  }
 }
 
 /* [[ END ]] */
