@@ -2,10 +2,11 @@
 
 #define TB_IMPL
 
-#include <stdio.h>
-#include <math.h>
 #include "termbox2.h"
-#include "termcaster.h"
+#include "config.h"
+#include "utils.h"
+#include "camera.h"
+#include "raycaster.h"
 
 /* [[ MAIN ]] */
 
@@ -13,13 +14,12 @@ int main() {
 
   // Termbox2 setup.
   if (tb_init() != 0) {
-      fprintf(stderr, "Failed to initialize termbox\n");
       return 1;
   }
 
-  // Screen diamension.
-  int width =  tb_width(); // cols.
-  int height =  tb_height(); // rows.
+  // Screen dimensions.
+  int width = tb_width(); // cols.
+  int height = tb_height(); // rows.
 
   // Camera.
   Camera cm = {

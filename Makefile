@@ -1,23 +1,28 @@
-# Compiler
+# Compiler and flags
 CC = gcc
 
-# Linker flags (for math library)
-LDFLAGS = -lm
-
-# Source files
-SRC = main.c
+# List of source files
+SRCS = main.c camera.c map.c raycaster.c renderer.c utils.c
 
 # Object files
-OBJ = $(SRC:.c=.o)
+OBJS = $(SRCS:.c=.o)
 
-# Output binary
+# Output binary name
 TARGET = termcaster
 
-# Build rule
-$(TARGET): $(OBJ)
-	$(CC) -o $@ $^ $(LDFLAGS)
+# Default rule
+all: $(TARGET)
 
-# Clean rule
-.PHONY: clean
+# Link the final binary
+$(TARGET): $(OBJS)
+	$(CC) $(OBJS) -o $(TARGET) -lm
+
+# Compile source files into object files
+%.o: %.c
+	$(CC) -c $< -o $@
+
+# Clean up build artifacts
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -f $(OBJS) $(TARGET)
+
+.PHONY: all clean
