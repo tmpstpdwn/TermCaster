@@ -4,7 +4,7 @@ A simple terminal-based raycaster written in C using [Termbox2](https://github.c
 
 ## Demo
 
-[Link](raycaster.mp4)
+[Link](termcaster.mp4)
 
 ## Build & Run
 
