@@ -2,6 +2,10 @@
 
 A simple terminal-based raycaster written in C using [Termbox2](https://github.com/termbox/termbox2).
 
+## Demo
+
+[Link](raycaster.mp4)
+
 ## Build & Run
 
 ```bash
