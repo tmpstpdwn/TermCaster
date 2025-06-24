@@ -11,7 +11,7 @@
 
 // Camera normal, angular speed.
 #define SPEED 2
-#define ANGULAR_SPEED 1.5
+#define ANGULAR_SPEED 2
 
 // Raycaster
 #define MAX_DRAW_DIST 20

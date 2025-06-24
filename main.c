@@ -47,8 +47,7 @@ int main() {
     last_time = current_time;
 
     // Deal with events.
-    tb_peek_event(&ev, 0);
-    if (ev.type == TB_EVENT_KEY) {
+    if ((tb_peek_event(&ev, 0) == 0) && ev.type == TB_EVENT_KEY) {
       switch (ev.key) {
         case TB_KEY_ARROW_UP:
           move(&cm,  1, delta_time);
